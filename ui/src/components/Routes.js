@@ -9,6 +9,12 @@ import {
   LoginContainer
 } from 'grove-core-react-redux-containers';
 
+// Import custom override components
+import MyDetailTemplate from './MyDetailTemplate';
+import MyEditTemplate from './MyEditTemplate';
+import ApiTestContainer from './ApiTest';
+import CustomSearchResult from './CustomSearchResult';
+
 const PrivateRoute = ({
   component: Component,
   render,
@@ -38,17 +44,17 @@ const PrivateRoute = ({
   );
 };
 
+
+const customNoResults =  () => (
+  <p>Truly, there are no results.</p>
+)
+
 const Routes = ({ isAuthenticated }, ...rest) => {
   return (
     <Switch>
-      <Route
-        exact
-        path="/login"
-        render={props => {
+      <Route exact path="/login" render={props => {
           return isAuthenticated ? (
-            <Redirect
-              to={(props.location.state && props.location.state.from) || '/'}
-            />
+            <Redirect to={(props.location.state && props.location.state.from) || '/'} />
           ) : (
             <LoginContainer />
           );
@@ -56,28 +62,34 @@ const Routes = ({ isAuthenticated }, ...rest) => {
       />
       <PrivateRoute
         isAuthenticated={isAuthenticated}
-        exact
-        path="/"
-        render={() => <SearchContainer />}
+        exact path="/"
+        //render={() => <SearchContainer  resultComponent={CustomSearchResult} noResults={customNoResults}/>}
+        render={() => <SearchContainer/>}
       />
       <PrivateRoute
         isAuthenticated={isAuthenticated}
-        exact
-        path="/detail"
+        exact path="/detail"
         render={props => {
           // Prefer to get id from the state
-          const id =
-            (props.location.state && props.location.state.id) ||
-            queryString.parse(props.location.search).id;
-          return <DetailContainer id={id} />;
+          const id = (props.location.state && props.location.state.id) || queryString.parse(props.location.search).id;
+          return <DetailContainer template={MyDetailTemplate} id={id}  />;
         }}
       />
       <PrivateRoute
         isAuthenticated={isAuthenticated}
-        exact
-        path="/create"
-        render={() => <CreateContainer redirectPath="/detail" />}
+        exact path="/edit"
+        render={props => {
+          // Prefer to get id from the state
+          const id = (props.location.state && props.location.state.id) || queryString.parse(props.location.search).id;
+          return <DetailContainer template={MyEditTemplate} id={id}  />;
+        }}
       />
+      <PrivateRoute
+        isAuthenticated={isAuthenticated} exact path="/create" render={() => <CreateContainer redirectPath="/detail" />}
+      />
+      <PrivateRoute isAuthenticated={isAuthenticated} exact path="/apitest" render={() => {
+        return <ApiTestContainer/>}
+      }/>
     </Switch>
   );
 };

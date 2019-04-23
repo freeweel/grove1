@@ -8,8 +8,9 @@
     "npm": ">=5.7.0"
   },
   "dependencies": {
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "bootstrap-material-design": "^0.5.10",
+    "font-awesome": "^4.7.0",
     "grove-core-react-components": "git+https://project.marklogic.com/repo/scm/nacw/grove-core-react-components.git#1.0.0-rc.1",
     "grove-core-react-redux-containers": "git+https://project.marklogic.com/repo/scm/~pmcelwee/grove-core-react-redux-containers.git#1.0.0-rc.1",
     "query-string": "^6.2.0",
