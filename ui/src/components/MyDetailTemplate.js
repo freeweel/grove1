@@ -35,11 +35,3 @@ const MyDetailTemplate = (props) => {
 };
 
 export default MyDetailTemplate;
-
-
-/*
-      detail: {props.detail}<br/><br/>
-      contentType: {props.contentType}<br/><br/>
-      label: {props.label}<br/><br/>
-      id: {props.id}<br/><br/>
-*/
