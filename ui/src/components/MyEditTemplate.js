@@ -9,15 +9,19 @@ const EditContactForm = class EditContactForm extends Component {
     this.id = props.data.id;
     this.contentType = props.data.contentType;
     //this.handleChange = this.handleChange.bind(this);
+    //this.props.loadDetail(this.id);
   }
-  // Using arrow syntax automatically binds 'this' to function
+
+  // Set state based on user input
+  // NOTE: Using arrow syntax automatically binds 'this' to function
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   }
+
   render() {
     return (
       <div className="card padbig">
-        <label>Edit {this.props.data.label}  </label>
+        <label>Edit {this.props.data.label} </label>
         <span className="pull-right">
           <FormSaveButtonContainer id={this.id} contentType={this.contentType} content={this.state}></FormSaveButtonContainer>
         </span>

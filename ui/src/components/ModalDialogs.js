@@ -22,7 +22,7 @@ class Dialog extends Component {
             this.handleClose();
         }
     };
-    handleClose() { this.props.onClose(); }
+    handleClose() { if (this.props.onClose) this.props.onClose(); }
 
     // Externally accessible functions to show or hide the active dialog
     showDialog = () => this.setState({ show: true });
@@ -89,21 +89,21 @@ class MsgBox extends Dialog {
 // Example: <Error msg="Hello World" onClick="[function when Close is clicked]/>"
 class Error extends Dialog {
     render() {
-        return (<Dialog show={this.props.show} onClick={[this.props.onClick]} btn1="Close" header="exclamation-triangle" msg={this.props.msg}></Dialog>);
+        return (<Dialog onClose={this.props.onClose} show={this.props.show} onClick={[this.props.onClick]} btn1="Close" header="exclamation-triangle" msg={this.props.msg}></Dialog>);
     }
 }
 
 // Example: <YesNo msg="Do you want an answer?" yes="[function when yes is clicked]"  no="[function when no is clicked]"/>
 class YesNo extends Dialog {
     render() {
-        return (<Dialog show={this.props.show} onClick={[this.props.yes, this.props.no]} btn1="Yes" btn2="No" header="question-circle" msg={this.props.msg}></Dialog>);
+        return (<Dialog onClose={this.props.onClose} show={this.props.show} onClick={[this.props.yes, this.props.no]} btn1="Yes" btn2="No" header="question-circle" msg={this.props.msg}></Dialog>);
     }
 }
 
 // Example: <OkCancel msg="Do you want to proceed?" ok="[function when OK is clicked]"  cancel="[function when Cancel is clicked]"/>
 class OkCancel extends Dialog {
     render() {
-        return (<Dialog onClick={[this.props.ok, this.props.cancel]} btn1="OK" btn2="Cancel" header="question-circle" msg={this.props.msg}></Dialog>);
+        return (<Dialog onClose={this.props.onClose} onClick={[this.props.ok, this.props.cancel]} btn1="OK" btn2="Cancel" header="question-circle" msg={this.props.msg}></Dialog>);
     }
 }
 

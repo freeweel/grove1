@@ -2,7 +2,6 @@ import React from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 
 const MyDetailTemplate = (props) => {
-
   let genderDisplay = (props.detail.gender) ? 'd-block' : 'd-none';
   let cityDisplay = (props.detail.gender) ? 'd-block' : 'd-none';
   let editUrl = "/edit?id=" + props.id;
