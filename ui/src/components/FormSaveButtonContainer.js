@@ -10,11 +10,14 @@ const FormSaveButtonContainer = class FormSaveButtonContainer extends Component 
     this.state = { showErrorDlg: false, showMsgDlg: false, msg: "", submitted: false };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  // Small test function to show props as JSON in a modal message box
   alertMe() { return () => this.showMsgDialog(JSON.stringify(this.props)) };
+
+  // Save/update the contents of the properties to the database
   save() {
     return async () => {
       const uri = '/api/crud/all/' + encodeURIComponent(this.props.id);
-
       const opts = {
         method: 'POST',
         headers: {

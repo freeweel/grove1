@@ -10,6 +10,7 @@ import {
 } from 'grove-core-react-redux-containers';
 
 // Import custom override components
+import MyDetailContainer from './MyDetailContainer';
 import MyDetailTemplate from './MyDetailTemplate';
 import MyEditTemplate from './MyEditTemplate';
 import ApiTestContainer from './ApiTest';
@@ -72,7 +73,7 @@ const Routes = ({ isAuthenticated }, ...rest) => {
         render={props => {
           // Prefer to get id from the state
           const id = (props.location.state && props.location.state.id) || queryString.parse(props.location.search).id;
-          return <DetailContainer template={MyDetailTemplate} id={id}  />;
+          return <MyDetailContainer template={MyDetailTemplate} id={id}  />;
         }}
       />
       <PrivateRoute
