@@ -73,7 +73,8 @@ const Routes = ({ isAuthenticated }, ...rest) => {
         render={props => {
           // Prefer to get id from the state
           const id = (props.location.state && props.location.state.id) || queryString.parse(props.location.search).id;
-          return <MyDetailContainer template={MyDetailTemplate} id={id}  />;
+          const reload = queryString.parse(props.location.search).reload;
+          return <MyDetailContainer template={MyDetailTemplate} id={id} reload={reload} />;
         }}
       />
       <PrivateRoute

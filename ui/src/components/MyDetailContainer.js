@@ -1,91 +1,50 @@
 /**
- * Class to add some special features to detail container
+ * Overrides the default DetailView Component so that we can force the reloading of content,  
+ * then uses Redux connect to create a new instance of a DetailContainer.
+ * 
+ * Example: <MyDetailView id="MyID" reload="true|false"/>
  */
-import React, { Component } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
-
-import { DetailContainer } from 'grove-core-react-redux-containers';
-
-// Experimental...
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-import { DetailView } from 'grove-core-react-components';
-
 import { actions, selectors } from 'grove-crud-redux';
 import { bindSelectors } from '../utils/redux-utils';
+import { DetailView } from 'grove-core-react-components';
 
+// Map the state to properties
+const mapStateToProps = (state, ownProps) => {
+  const sel = bindSelectors(selectors, 'documents');
+  const detail = sel.documentById(state, ownProps.id);
+  return {
+    label: detail && detail.name,
+    detail: detail,
+    error: sel.errorById(state, ownProps.id),
+    contentType: sel.contentTypeById(state, ownProps.id)
+  };
+};
 
-const MyDetailContainer = class MyDetailContainer extends DetailContainer {
-  state = {};
+// Add the loadDetail method dispatcher
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      loadDetail: actions.fetchDoc,
+    },
+    dispatch
+  );
+
+// Extend DetailView so we can force a reload if reload is true
+class MyDetailView extends DetailView {
   componentDidMount() {
     super.componentDidMount();
-    this.reload();
-  }
-
-  // Reload properties from the database
-  reload() {
-    let contentType;
-    const uri = '/api/crud/all/' + encodeURIComponent(this.props.id);
-    const opts = {
-      method: 'GET',
-      credentials: 'same-origin'
+    if (this.props.reload) {
+      this.props.loadDetail(this.props.id);
     }
-    fetch(uri, opts)
-      .then(response => {
-        if (!response.ok) throw new Error(response.statusText);
-        return response.json();
-      })
-      .then(response => {
-        this.setState(response);
-        return {
-          content: response.content || response,
-          contentType: response.contentType || contentType
-        };
-      });
   }
-
-  // render() {
-  //   let editUrl = "/edit?id=" + this.props.id;
-  //   return (
-  //     <div>
-  //       <label>Details for  </label>
-  //       <span className="pull-right">
-  //         <LinkContainer exact to={editUrl}>
-  //           <button className="btn btn-default btn-raised">Edit</button>
-  //         </LinkContainer>
-  //       </span> <h1>Poop scoop: {this.state.name}</h1>
-  //     </div>
-  //   )
-  // }
 }
 
-// const boundSelectors = bindSelectors(selectors, 'documents');
-
-// const mapStateToProps = (state, ownProps) => {
-//   const sel = boundSelectors;
-//   const detail = sel.documentById(state, ownProps.id);
-//   return {
-//     // TODO: move this label implementation to a samplePerson branch
-//     // because it is not generic, but it is useful for a quick Grove demo
-//     label: detail && detail.name,
-//     detail: detail,
-//     error: sel.errorById(state, ownProps.id),
-//     contentType: sel.contentTypeById(state, ownProps.id)
-//   };
-// };
-
-// const mapDispatchToProps = dispatch =>
-//   bindActionCreators(
-//     {
-//       loadDetail: actions.fetchDoc,
-//     },
-//     dispatch
-//   );
-
-// const xxxMyDetailContainer = connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(DetailView);
+// Use redux connect to create envelope class mapped to store
+const MyDetailContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyDetailView);
 
 export default MyDetailContainer;

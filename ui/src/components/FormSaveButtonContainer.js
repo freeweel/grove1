@@ -64,7 +64,7 @@ const FormSaveButtonContainer = class FormSaveButtonContainer extends Component 
   render() {
     let detailsUrl = '/detail?id=' + this.props.id;
     if (this.state.submitted) {
-      return <Redirect to={detailsUrl}/>
+      return <Redirect to={detailsUrl + '&reload=true'}/>
     }
     return (
       <div>
