@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap';
-import { MsgBox, Error } from './ModalDialogs';
+import { ModalDlg, MsgBox, YesNo, Error } from './ModalDialogs';
 
 // Save/Cancel buttons and actions (props are supplied via JSX object's attribute values)
 const FormSaveButtonContainer = class FormSaveButtonContainer extends Component {
@@ -10,9 +10,6 @@ const FormSaveButtonContainer = class FormSaveButtonContainer extends Component 
     this.state = { showErrorDlg: false, showMsgDlg: false, msg: "", submitted: false };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  // Small test function to show props as JSON in a modal message box
-  alertMe() { return () => this.showMsgDialog(JSON.stringify(this.props)) };
 
   // Save/update the contents of the properties to the database
   save() {
@@ -29,7 +26,7 @@ const FormSaveButtonContainer = class FormSaveButtonContainer extends Component 
 
       try {
         const resp = await fetch(uri, opts);
-        if (resp.ok)
+        if (! resp.ok)
           this.handleSubmit();
         else 
           throw (resp);
@@ -37,7 +34,7 @@ const FormSaveButtonContainer = class FormSaveButtonContainer extends Component 
       catch (err) {
         let msg = "An error occurred while saving resource.\nServer returned " + err.status;
         console.log(msg);
-        this.showErrorDialog(msg);
+        this.showErrorDlg(msg);
       }
     }
   }
@@ -46,20 +43,19 @@ const FormSaveButtonContainer = class FormSaveButtonContainer extends Component 
     this.setState({ submitted: true });
   }
 
-  // Show the MsgBox dialog by forcing a state change
-  showMsgDialog(msg) {
-    this.setState({ showMsgDlg: true, showErrorDlg: false, msg: msg });
+  showMsgBox(msg, isVisible=true) {
+    this.setState({ msgMsgBox: msg, showMsgBox: isVisible});
   }
 
   // Show the Error dialog by forcing a state change
-  showErrorDialog(msg) {
-    this.setState({ showMsgDlg: false, showErrorDlg: true, msg: msg });
+  showErrorDlg(msg, isVisible=true) {
+    this.setState({ msgError: msg,showError: isVisible});
   }
 
-  // Calling this from the "onClose" event prevents dialogs from popping up during other state changes
-  hideDialogs() { return () => {
-    this.setState({ showMsgDlg: false, showErrorDlg: false });
-  }}
+    // Small test function to show a Yes/No dialog
+  showYesNoDlg(isVisible=true) { 
+    this.setState({ msgYesNo: 'Do you have a question?', showYesNo: isVisible, yesClick:() => this.showMsgBox('The answer is 42') });
+  };
 
   render() {
     let detailsUrl = '/detail?id=' + this.props.id;
@@ -68,15 +64,18 @@ const FormSaveButtonContainer = class FormSaveButtonContainer extends Component 
     }
     return (
       <div>
-        <Error onClose={this.hideDialogs()} show={this.state.showErrorDlg} msg={this.state.msg}></Error>
-        <MsgBox onClose={this.hideDialogs()} show={this.state.showMsgDlg} msg={this.state.msg}></MsgBox>
+        <Error msg={this.state.msgError} show={this.state.showError} onClose={() => this.setState({showError: false}) }/>
+        <MsgBox msg={this.state.msgMsgBox} show={this.state.showMsgBox} onClose={() => this.setState({showMsgBox: false})}/>
+        <YesNo msg={this.state.msgYesNo} show={this.state.showYesNo} onClose={() => this.setState({showYesNo: false})} yes={this.state.yesClick}/>
         <LinkContainer exact to={detailsUrl}>
           <button className="btn btn-warning btn-raised">Cancel</button>
         </LinkContainer>
         &#160;
         <button className="btn btn-default btn-raised" onClick={this.save()}>Save</button>
         &#160;
-        <button className="btn btn-primary btn-raised" onClick={this.alertMe()}>Test</button>
+        <button className="btn btn-primary btn-raised" onClick={()=>this.showMsgBox('You pressed the test button')}>Test</button>
+        &#160;
+        <button className="btn btn-primary btn-raised" onClick={()=>this.showYesNoDlg()}>?</button>
       </div>
     )
   }

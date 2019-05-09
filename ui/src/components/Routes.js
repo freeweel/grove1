@@ -87,7 +87,9 @@ const Routes = ({ isAuthenticated }, ...rest) => {
         }}
       />
       <PrivateRoute
-        isAuthenticated={isAuthenticated} exact path="/create" render={() => <CreateContainer redirectPath="/detail" />}
+        isAuthenticated={isAuthenticated}
+        exact path="/create" 
+        render={() => <CreateContainer redirectPath="/detail" />}
       />
       <PrivateRoute isAuthenticated={isAuthenticated} exact path="/apitest" render={() => {
         return <ApiTestContainer/>}

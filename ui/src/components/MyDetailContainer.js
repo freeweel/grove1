@@ -1,8 +1,8 @@
 /**
- * Overrides the default DetailView Component so that we can force the reloading of content,  
+ * This component extends the grove core react DetailView Component so that we can force the reloading of content,  
  * then uses Redux connect to create a new instance of a DetailContainer.
  * 
- * Example: <MyDetailView id="MyID" reload="true|false"/>
+ * Example: <MyDetailView id="MyDocumentID" reload="true|false"/> (reload is optional, defaults to false)
  */
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -25,17 +25,15 @@ const mapStateToProps = (state, ownProps) => {
 // Add the loadDetail method dispatcher
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
-    {
-      loadDetail: actions.fetchDoc,
-    },
+    { loadDetail: actions.fetchDoc },
     dispatch
   );
 
 // Extend DetailView so we can force a reload if reload is true
+// Data is always loaded if there is no detail field
 class MyDetailView extends DetailView {
   componentDidMount() {
-    super.componentDidMount();
-    if (this.props.reload) {
+    if (!this.props.detail || this.props.reload) {
       this.props.loadDetail(this.props.id);
     }
   }

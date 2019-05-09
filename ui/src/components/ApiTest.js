@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
 
-let delay = () => {
-  let input = "Joanna Smith";
-  return new Promise(
-    (resolve, reject) => setTimeout(() => reject(input), 1500)
-  );
-};
-
 let restCall = () => {
   let url = 'https://randomuser.me/api?results=1&nat=ca,us&inc=name,location';
   return fetch(url).then(data => {
