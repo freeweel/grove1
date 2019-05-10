@@ -7,7 +7,7 @@
 
   "uri-lexicon": true,
   "collection-lexicon": true,
-  "directory-creation": "manual",
+  "directory-creation": "automatic",
   "maintain-last-modified": false,
 
   "stemmed-searches": "basic",

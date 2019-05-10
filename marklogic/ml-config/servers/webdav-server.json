@@ -1,0 +1,13 @@
+{
+    "server-name": "%%mlAppName%%-WebDAV",
+    "group-name": "%%mlGroup%%",
+    "server-type": "webdav",
+    "root": "/",
+    "port": "8088",
+    "content-database": "%%mlAppName%%-content",
+    "modules-database": "%%mlAppName%%-content",
+    "authentication": "digest",
+    "default-user": "toad",
+    "log-errors": true,
+    "default-error-format": "compatible"
+  }

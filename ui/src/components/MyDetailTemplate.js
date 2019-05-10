@@ -2,8 +2,8 @@ import React from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 
 const MyDetailTemplate = (props) => {
-  let genderDisplay = (props.detail.gender) ? 'd-block' : 'd-none';
-  let cityDisplay = (props.detail.gender) ? 'd-block' : 'd-none';
+  let titleDisplay = (props.detail.title) ? 'd-block' : 'd-none';
+  let cityDisplay = (props.detail.city) ? 'd-block' : 'd-none';
   let editUrl = "/edit?id=" + props.id;
   return (
     <div className="card padbig">
@@ -18,11 +18,11 @@ const MyDetailTemplate = (props) => {
         <dd>{props.detail.name}</dd>
         <dt>Company</dt>
         <dd>{props.detail.company}</dd>
-        <dt>Title</dt>
+        <dt className={titleDisplay}>Title</dt>
         <dd>{props.detail.title}</dd>
         <dt className={cityDisplay}>City</dt>
         <dd>{props.detail.city}</dd>
-        <dt className={genderDisplay}>Gender</dt>
+        <dt >Gender</dt>
         <dd>{props.detail.gender}</dd>
         <dt>Content Type</dt>
         <dd>{props.contentType}</dd>

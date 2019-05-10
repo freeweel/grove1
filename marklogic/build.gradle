@@ -34,6 +34,7 @@ dependencies {
    */
   mlcp files("mlcp/conf")
   mlcp files("mlcp/lib")
+  mlcp files("mlcp/bin")
 }
 
 /**
@@ -63,7 +64,7 @@ task mlLoadContent(type: com.marklogic.gradle.task.MlcpTask) {
   classpath = configurations.mlcp
   command = "IMPORT"
   port = mlAppConfig.restPort
-  input_file_path = "ml-content/"
+  input_file_path = "/dev/grove1/marklogic/ml-content"
   output_collections = "config"
   output_permissions = mlAppConfig.name + "-role,read," + mlAppConfig.name + "-role,update"
   output_uri_replace = ".*ml-content/,'/'"
@@ -74,6 +75,8 @@ mlDeploy.finalizedBy mlLoadContent
 /** 
  * Use MlcpTask to load sample people data to support Grove.  Each document
  * represents a fictitious person.
+ *
+ * gradlew loadSampleData
 */
 task loadSampleData(type: com.marklogic.gradle.task.MlcpTask) {
   systemProperty "java.library.path", "mlcp/lib/native"

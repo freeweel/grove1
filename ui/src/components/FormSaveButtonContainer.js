@@ -26,14 +26,13 @@ const FormSaveButtonContainer = class FormSaveButtonContainer extends Component 
 
       try {
         const resp = await fetch(uri, opts);
-        if (! resp.ok)
+        if (resp.ok)
           this.handleSubmit();
         else 
           throw (resp);
       }
       catch (err) {
         let msg = "An error occurred while saving resource.\nServer returned " + err.status;
-        console.log(msg);
         this.showErrorDlg(msg);
       }
     }
@@ -43,18 +42,18 @@ const FormSaveButtonContainer = class FormSaveButtonContainer extends Component 
     this.setState({ submitted: true });
   }
 
-  showMsgBox(msg, isVisible=true) {
-    this.setState({ msgMsgBox: msg, showMsgBox: isVisible});
+  showMsgBox(msg) {
+    this.setState({ msgMsgBox: msg, showMsgBox: true});
   }
 
   // Show the Error dialog by forcing a state change
-  showErrorDlg(msg, isVisible=true) {
-    this.setState({ msgError: msg,showError: isVisible});
+  showErrorDlg(msg) {
+    this.setState({ msgError: msg,showError: true});
   }
 
     // Small test function to show a Yes/No dialog
-  showYesNoDlg(isVisible=true) { 
-    this.setState({ msgYesNo: 'Do you have a question?', showYesNo: isVisible, yesClick:() => this.showMsgBox('The answer is 42') });
+  showYesNoDlg(msg, yesClickFx) { 
+    this.setState({ msgYesNo: msg, showYesNo: true, yesClick: yesClickFx });
   };
 
   render() {
@@ -75,7 +74,7 @@ const FormSaveButtonContainer = class FormSaveButtonContainer extends Component 
         &#160;
         <button className="btn btn-primary btn-raised" onClick={()=>this.showMsgBox('You pressed the test button')}>Test</button>
         &#160;
-        <button className="btn btn-primary btn-raised" onClick={()=>this.showYesNoDlg()}>?</button>
+        <button className="btn btn-primary btn-raised" onClick={()=>this.showYesNoDlg('Do you have a question?',() => this.showMsgBox('The answer is 42') )}>?</button>
       </div>
     )
   }

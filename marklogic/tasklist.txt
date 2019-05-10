@@ -1,0 +1,241 @@
+
+------------------------------------------------------------
+All tasks runnable from root project
+------------------------------------------------------------
+
+Build Setup tasks
+-----------------
+init - Initializes a new Gradle build.
+wrapper - Generates Gradle wrapper files.
+
+Help tasks
+----------
+buildEnvironment - Displays all buildscript dependencies declared in root project 'marklogic'.
+components - Displays the components produced by root project 'marklogic'. [incubating]
+dependencies - Displays all dependencies declared in root project 'marklogic'.
+dependencyInsight - Displays the insight into a specific dependency in root project 'marklogic'.
+dependentComponents - Displays the dependent components of components in root project 'marklogic'. [incubating]
+help - Displays a help message.
+model - Displays the configuration model of root project 'marklogic'. [incubating]
+projects - Displays the sub-projects of root project 'marklogic'.
+properties - Displays the properties of root project 'marklogic'.
+tasks - Displays the tasks runnable from root project 'marklogic'.
+
+Ml-gradle Admin tasks
+---------------------
+mlInit - Perform a one-time initialization of a MarkLogic server; uses the properties 'mlLicenseKey' and 'mlLicensee'
+mlInstallAdmin - Perform a one-time installation of an admin user; uses the properties 'mlAdminUsername'/'mlUsername' and 'mlAdminPassword'/'mlPassword'
+
+Ml-gradle Alert tasks
+---------------------
+mlDeleteAllAlertConfigs - Delete all alert configs, which also deletes all of the actions rules associated with them
+mlDeployAlerting - Deploy each alerting resource - configs, actions, and rules - in the configuration directory
+
+Ml-gradle Cluster tasks
+-----------------------
+mlAddHost - Add host to the cluster; must define 'host', 'hostGroup' (optional), and 'hostZone' (optional) properties
+mlDisableSslFips - Disable SSL FIPS across the cluster
+mlEnableSslFips - Enable SSL FIPS across the cluster
+mlModifyCluster - Modify the properties of the local cluster based on the ml-config/clusters/local-cluster.json file
+mlRemoveHost - Remove a host from the cluster; must define 'host' property
+mlRestartCluster - Restart the local cluster
+
+Ml-gradle Configuration tasks
+-----------------------------
+mlDeployConfigurations - Deploy each configuration (requires at least MarkLogic 9.0-5) in the configuration directory
+
+Ml-gradle CPF tasks
+-------------------
+mlDeployCpf - Deploy each CPF resource - domains, pipelines, and CPF configs - in the configuration directory
+mlLoadDefaultPipelines - Load default pipelines into a triggers database
+mlRedeployCpf - Clears the triggers database and then calls mlDeployCpf; be sure to reload custom triggers after doing this, as they will be deleted as well
+
+Ml-Gradle Data Movement tasks
+-----------------------------
+mlAddCollections - Add collections to documents. Run with -PjobProperties (no value needed) for more information.
+mlAddPermissions - Add permissions to documents. Run with -PjobProperties (no value needed) for more information.
+mlDeleteCollections - Delete collections. Run with -PjobProperties (no value needed) for more information.
+mlExportBatchesToDirectory - Export batches of documents to files in a directory. Run with -PjobProperties (no value needed) for more information.
+mlExportBatchesToZips - Export batches of documents to zips in a directory. Run with -PjobProperties (no value needed) for more information.
+mlExportToFile - Export documents to a single file. Run with -PjobProperties (no value needed) for more information.
+mlExportToZip - Export documents to a single zip. Run with -PjobProperties (no value needed) for more information.
+mlRemoveCollections - Remove collections from documents. Run with -PjobProperties (no value needed) for more information.
+mlRemovePermissions - Remove permissions from documents. Run with -PjobProperties (no value needed) for more information.
+mlSetCollections - Set collections on documents. Run with -PjobProperties (no value needed) for more information.
+mlSetPermissions - Set permissions on documents. Run with -PjobProperties (no value needed) for more information.
+
+Ml-gradle Database tasks
+------------------------
+mlClearContentDatabase - Deletes all documents in the content database; requires -Pconfirm=true to be set so this isn't accidentally executed
+mlClearDatabase - Deletes all documents in a database specified by -Pdatabase=(name); requires -Pconfirm=true to be set so this isn't accidentally executed
+mlClearModulesDatabase - Deletes potentially all of the documents in the modules database; has a property for excluding documents from deletion
+mlClearSchemasDatabase - Deletes all documents in the schemas database. Note that this includes those created via the deployment of resources such as temporal collections and view schemas. You may want to use mlDeleteUserSchemas instead.
+mlClearTriggersDatabase - Deletes all documents in the triggers database
+mlDeployDatabases - Deploy each database, updating it if it exists, in the configuration directory
+mlMergeContentDatabase - Merge the database named by mlAppConfig.contentDatabaseName
+mlMergeDatabase - Merge the database named by the project property dbName; e.g. gradle mlMergeDatabase -PdbName=my-database
+mlReindexContentDatabase - Reindex the database named by mlAppConfig.contentDatabaseName
+mlReindexDatabase - Reindex the database named by the project property dbName; e.g. gradle mlReindexDatabase -PdbName=my-database
+mlSetContentUpdatesAllowed - Sets updated-allowed on each primary forest for the content database; must set the mode via e.g. -Pmode=flash-backup
+mlUpdateIndexes - Update every database by sending a payload that only contains properties related to how data is indexed
+
+Ml-gradle Deploy tasks
+----------------------
+mlDeleteResourceTimestampsFile - Delete the properties file in the build directory (stored there by default) that keeps track of when each resource was last deployed; the file path can be overridden by setting the filePath property of this class
+mlDeploy - Deploys all application resources in the configuration directory and allows for additional steps via mlPostDeploy.dependsOn. Use -Pignore to specify a comma-delimited list of short class names of ml-app-deployer command classes to ignore while deploying.
+mlPostDeploy - Add dependsOn to this task to add tasks at the end of mlDeploy
+mlPostUndeploy - Add dependsOn to this task to add tasks at the end of mlUndeploy
+mlRedeploy - Clears the modules database and then deploys the application
+mlUndeploy - Undeploys all application resources in the configuration directory and allows for additional steps via mlPostUndeploy.dependsOn; requires -Pconfirm=true to be set so this isn't accidentally executed
+
+Ml-gradle Development tasks
+---------------------------
+mlCreateResource - Create a new resource extension in the modules services directory; use -PresourceName and -PresourceType to set the resource name and type (either xqy or sjs)
+mlCreateTransform - Create a new transform in the modules transforms directory; use -PtransformName and -PtransformType to set the transform name and type (xqy, xsl, or sjs)
+mlExportResources - Export resources based on a properties file specified via -PpropertiesFile, -Pprefix, or -Pregex; use -PincludeTypes to select resource types to export via a comma-delimited string; use -PexportPath to specify where to export resources to
+mlNewAmp - Generate a new amp resource file. Non-complex properties can be specified via -Pml-(name of property).
+mlNewDatabase - Generate a new database resource file. Non-complex properties can be specified via -Pml-(name of property).
+mlNewExternalSecurity - Generate a new external security resource file. Non-complex properties can be specified via -Pml-(name of property).
+mlNewGroup - Generate a new group resource file. Non-complex properties can be specified via -Pml-(name of property).
+mlNewPrivilege - Generate a new privilege resource file. Non-complex properties can be specified via -Pml-(name of property).
+mlNewProject - Run a wizard for creating a new project, which includes running mlScaffold
+mlNewProtectedCollection - Generate a new protected collection resource file. Non-complex properties can be specified via -Pml-(name of property).
+mlNewRole - Generate a new role resource file. Non-complex properties can be specified via -Pml-(name of property).
+mlNewServer - Generate a new server resource file. Non-complex properties can be specified via -Pml-(name of property).
+mlNewTask - Generate a new task resource file. Non-complex properties can be specified via -Pml-(name of property).
+mlNewUser - Generate a new user resource file. Non-complex properties can be specified via -Pml-(name of property).
+mlPrepareRestApiDependencies - Downloads (if necessary) and unzips in the build directory all mlRestApi dependencies
+mlPrintCommands - Print information about each command used by mlDeploy and mlUndeploy
+mlPrintProperties - Print all of the properties supported by ml-gradle
+mlPrintTokens - Print the customTokens map on the mlAppConfig object (typically for debugging purposes)
+mlScaffold - Generate project scaffold for a new project
+
+Ml-gradle Entity Services tasks
+-------------------------------
+mlGenerateModelArtifacts - Generate model artifacts for the Entity Services models in the default directory of ./data/entity-services
+
+Ml-gradle Flexible Replication tasks
+------------------------------------
+mlDeleteAllFlexrepConfigs - Delete all Flexrep configs and their associated targets
+mlDeployFlexrep - Deploy Flexrep configs and targets in the configuration directory
+mlDeployFlexrepAtPath - Deploy all Flexrep resources in a directory under ml-config/flexrep with a name matching the property mlFlexrepPath
+mlDisableAllFlexrepTargets - Disable every target on every flexrep config
+mlEnableAllFlexrepTargets - Enable every target on every flexrep config
+
+Ml-gradle Forest tasks
+----------------------
+mlConfigureForestReplicas - Deprecated - configure forest replicas via the command.forestNamesAndReplicaCounts map
+mlDeleteForestReplicas - Deprecated - delete forest replicas via the command.forestNamesAndReplicaCounts map
+mlDeployCustomForests - Deploy custom forests as defined in subdirectories of the forests configuration directory
+mlDeployForestReplicas - Prefer this over mlConfigureForestReplicas; it does the same thing, but uses the ConfigureForestReplicasCommand that is used by mlDeploy
+mlPrintForestPlan - Print a list of primary forests to be created for a database specified by -Pdatabase=(name of database) when the database is next deployed
+
+Ml-gradle Group tasks
+---------------------
+mlDeployGroups - Deploy each group, updating it if it exists, in the configuration directory
+mlSetTraceEvents - Set trace events via a comma-delimited string - e.g. -Pevents=event1,event2
+
+Ml-gradle Host tasks
+--------------------
+mlAssignHostsToGroups - Assign each specified host to its corresponding group, as defined by the mlHostGroups property
+
+Ml-gradle Mimetypes tasks
+-------------------------
+mlDeployMimetypes - Deploy each mimetype, updating it if it exists, in the configuration directory
+mlUndeployMimetypes - Undeploy each mimetype defined in the configuration directory
+
+Ml-gradle Modules tasks
+-----------------------
+mlDeleteModuleTimestampsFile - Delete the properties file in the build directory that keeps track of when each module was last loaded
+mlExportModules - Export modules matching a URI pattern of ** (can be overridden via -PuriPattern) from the database defined by mlModulesDatabaseName (can be overridden via -PdatabaseName) to the last path defined by mlModulePaths (can be overridden via -PexportPath). For each module that cannot be exported, an error will be logged; an error will be thrown instead by setting -PlogErrors to false.
+mlLoadModules - Loads modules from directories defined by mlAppConfig or via a property on this task
+mlReloadModules - Reloads modules by first clearing the modules database and then loading modules
+mlWatch - Run a loop that checks for new/modified modules every second and loads any that it finds. To ignore files that are already dirty and only process new changes, include -PignoreDirty=true . 
+
+Ml-gradle qconsole tasks
+------------------------
+mlExportWorkspaces - Export workspaces from qconsole
+mlImportWorkspaces - Import workspaces into qconsole
+
+Ml-gradle REST API tasks
+------------------------
+mlDeployRestApis - Deploy the REST API instances defined by a resource file or the mlRestPort/mlTestRestPort properties
+
+Ml-gradle Roxy tasks
+--------------------
+mlRoxyMigrateBuildSteps - Migrate build steps from deploy/app_specific.rb into custom Gradle tasks. Use -ProxyProjectPath to define the location of your Roxy project, and -PappSpecificPath to define a path other than deploy/app_specific.rb
+mlRoxyMigrateFiles - Migrate Roxy source files into this Gradle project. Use -ProxyProjectPath to define the location of your Roxy project.
+mlRoxyMigrateProject - Run all tasks for migrating a Roxy project into this Gradle project. Use -ProxyProjectPath to define the location of your Roxy project.
+mlRoxyMigrateProperties - Migrate Roxy properties into the gradle.properties file in this project. Use -ProxyProjectPath to define the location of your Roxy project.
+
+Ml-gradle Schemas tasks
+-----------------------
+mlDeleteUserSchemas - Delete documents in a schemas database that were not created via the deployment of resources such as temporal collections or view schemas
+mlLoadSchemas - Loads special-purpose data into the schemas database (XSD schemas, Inference rules, and [MarkLogic 9] Extraction Templates)
+mlReloadSchemas - Deletes user schemas via mlDeleteUserSchemas and then loads schemas via mlLoadSchemas
+
+Ml-gradle Security tasks
+------------------------
+mlDeployAmps - Deploy each amp, updating it if it exists, in the configuration directory
+mlDeployCertificateAuthorities - Deploy each certificate authority, updating it if it exists, in the configuration directory
+mlDeployCertificateTemplates - Deploy each certificate template, updating it if it exists, in the configuration directory
+mlDeployExternalSecurity - Deploy external security configurations, updating each if it exists, in the configuration directory
+mlDeployPrivileges - Deploy each privilege, updating it if it exists, in the configuration directory
+mlDeployProtectedCollections - Deploy each protected collection, updating it if it exists, in the configuration directory
+mlDeployProtectedPaths - Deploy each protected path, updating it if it exists, in the configuration directory
+mlDeployQueryRolesets - Deploy each query roleset, updating it if it exists, in the configuration directory
+mlDeployRoles - Deploy each role, updating it if it exists, in the configuration directory
+mlDeploySecurity - Deploy each security resource, updating it if it exists, in the configuration directory
+mlDeployUsers - Deploy each user, updating it if it exists, in the configuration directory
+mlUndeployAmps - Undeploy (delete) each amp in the configuration directory
+mlUndeployCertificateTemplates - Undeploy (delete) each certificate template in the configuration directory
+mlUndeployExternalSecurity - Undeploy (delete) each external security configuration in the configuration directory
+mlUndeployPrivileges - Undeploy (delete) each privilege in the configuration directory
+mlUndeployProtectedCollections - Undeploy (delete) each protected collection in the configuration directory
+mlUndeployProtectedPaths - Undeploy (delete) each protected path in the configuration directory
+mlUndeployQueryRolesets - Undeploy (delete) each query roleset in the configuration directory
+mlUndeployRoles - Undeploy (delete) each role in the configuration directory
+mlUndeploySecurity - Undeploy (delete) all security resources in the configuration directory
+mlUndeployUsers - Undeploy (delete) each user in the configuration directory
+
+Ml-gradle Server tasks
+----------------------
+mlDeployServers - Updates the REST API server (if it exists) and deploys each other server, updating it if it exists, in the configuration directory 
+mlUndeployOtherServers - Delete any non-REST API servers (e.g. ODBC and XBC servers) defined by server files in the configuration directory
+
+Ml-gradle Shell tasks
+---------------------
+mlShell - Run groovysh with MarkLogic-specific support built in
+
+Ml-gradle SQL tasks
+-------------------
+mlDeployViewSchemas - Deploy each SQL view schema, updating it if it exists, in the configuration directory
+
+Ml-gradle Task tasks
+--------------------
+mlDeleteAllTasks - Delete all scheduled tasks in the cluster
+mlDeployTasks - Deploy each scheduled task, updating it if it exists, in the configuration directory
+mlDisableAllTasks - Disable each scheduled task in the group identified by the mlGroupName property, which defaults to 'Default'
+mlEnableAllTasks - Enable each scheduled task in the group identified by the mlGroupName property, which defaults to 'Default'
+mlUndeployTasks - Undeploy (delete) each scheduled task in the configuration directory
+mlWaitForTaskServer - Wait for the task server to not have any requests in progress
+
+Ml-gradle Temporal tasks
+------------------------
+mlDeployTemporal - Deploy temporal configuration. Note that (currently) you can't update the temporal configuration (collection properties and LSQT properties excepted)
+
+Ml-gradle Trigger tasks
+-----------------------
+mlDeployTriggers - Deploy each trigger, updating it if it exists, in the configuration directory
+
+Ml-gradle Unit Test tasks
+-------------------------
+mlGenerateUnitTestSuite - Generate a marklogic-unit-test test suite. The test suite files are written to src/test/ml-modules/root/test/suites by default; use -PsuitesPath to override this. Can use -PsuiteName to override the name of the test suite, and -PtestName to override the name of the test module.
+mlUnitTest - Run tests found under /test/suites in the modules database. Connects to MarkLogic via the REST API server defined by mlTestRestPort (or by mlRestPort if mlTestRestPort is not set), and uses mlRest* properties for authentication. Use -PunitTestResultPath to override where test result files are written, which defaults to build/test-results/marklogic-unit-test. Use -PrunCodeCoverage to enable code coverage support when running the tests. Use -PrunTeardown and -PrunSuiteTeardown to control whether teardown and suite teardown scripts are run; these default to 'true' and can be set to 'false' instead. 
+
+To see all tasks and more detail, run gradlew tasks --all
+
+To see more detail about a task, run gradlew help --task <task>
+
+BUILD SUCCESSFUL in 2s
+1 actionable task: 1 executed
